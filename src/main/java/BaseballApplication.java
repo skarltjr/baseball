@@ -1,8 +1,18 @@
+import model.BaseballGame;
+import view.InputView;
 
 public class BaseballApplication {
 
     public static void main(String[] args) {
-        System.out.println("안녕 qweqwe");
+        play();
+        if (InputView.restart()) {
+           play();
+        }
+    }
+
+    public static void play() {
+        BaseballGame game = new BaseballGame();
+        game.gameStart();
     }
 
 }
