@@ -1,3 +1,5 @@
+package view;
+
 import model.Result;
 
 public class OutputView {
@@ -22,5 +24,10 @@ public class OutputView {
         resultMessage.append(result.getStrikeCount()).append(STRIKE);
         resultMessage.append(result.getBallCount()).append(BALL);
         return resultMessage.toString();
+    }
+
+    public static void printResult(Result result) {
+        String resultMessage = getResultMessage(result);
+        System.out.println(resultMessage);
     }
 }
