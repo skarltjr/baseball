@@ -1,4 +1,6 @@
 import model.Input;
+import model.Result;
+import model.ResultDiscriminator;
 import model.Target;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +14,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class ResultDiscriminatorTest {
 
     private Target target;
-    private ResultDiscriminator discriminator;
     @BeforeEach
     void setUp() {
         List<Integer> numbers = new ArrayList<>();
@@ -20,63 +21,50 @@ public class ResultDiscriminatorTest {
         numbers.add(2);
         numbers.add(3);
         target = new Target(numbers);
-        discriminator = new ResultDiscriminator();
     }
     @Test
     @DisplayName("수와 위치가 동일하면 strike")
     void strike() {
         Input input = new Input("149");
-        Result result = discriminator.discriminate(input, target);
-
+        Result result = ResultDiscriminator.discriminate(input, target);
+        assertThat(result.getStrikeCount()).isEqualTo(1);
+        assertThat(result.getBallCount()).isEqualTo(0);
     }
 
     @Test
     @DisplayName("수는 동일하지만 위치가 다르면 ball")
     void ball() {
-
+        Input input = new Input("231");
+        Result result = ResultDiscriminator.discriminate(input, target);
+        assertThat(result.getStrikeCount()).isEqualTo(0);
+        assertThat(result.getBallCount()).isEqualTo(3);
     }
 
     @Test
-    @DisplayName("동일한 수가 하나도 없다면 nothing")
+    @DisplayName("동일한 수가 하나도 없는 경우")
     void nothing() {
-
+        Input input = new Input("456");
+        Result result = ResultDiscriminator.discriminate(input, target);
+        assertThat(result.getStrikeCount()).isEqualTo(0);
+        assertThat(result.getBallCount()).isEqualTo(0);
     }
 
     @Test
-    @DisplayName("완전히 일치하면 종료")
+    @DisplayName("완전일치 = 3 strike 0 ball")
     void end() {
-
+        Input input = new Input("123");
+        Result result = ResultDiscriminator.discriminate(input, target);
+        assertThat(result.getStrikeCount()).isEqualTo(3);
+        assertThat(result.getBallCount()).isEqualTo(0);
     }
 
-    public class ResultDiscriminator {
-        public Result discriminate(Input input, Target target) {
-
-
-            return null;
-        }
+    @Test
+    @DisplayName("입력 숫자가 모두 동일한 숫자면서 하나만 위치가 동일한 경우")
+    void sameInputNumberAndOnlyOneSameLocation() {
+        Input input = new Input("111");
+        Result result = ResultDiscriminator.discriminate(input, target);
+        assertThat(result.getStrikeCount()).isEqualTo(1);
+        assertThat(result.getBallCount()).isEqualTo(2);
     }
 
-    public class Result {
-        private int ballCount;
-        private int strikeCount;
-        private static final String NOTHING = "nothing";
-
-        public Result(int ballCount,int strikeCount) {
-            this.ballCount = ballCount;
-            this.strikeCount = strikeCount;
-        }
-
-        public String getResult() {
-            if (strikeCount == 0 && ballCount == 0){
-                return NOTHING;
-            }
-
-            return makeResultMessage(ballCount, strikeCount);
-        }
-
-        private String makeResultMessage(int ballCount, int strikeCount) {
-            return null;
-        }
-
-    }
 }

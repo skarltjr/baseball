@@ -28,6 +28,7 @@ public class Input {
     }
 
     private List<Integer> numberInputToNumbers(String inputs) {
+        // 삽입 최대 3개 but 조회 빈번 -> arrayList
         List<Integer> numbers = new ArrayList<>();
 
         for (int i = 0; i < inputs.length(); i++) {
