@@ -1,10 +1,11 @@
 package model;
 
+import exceptions.NotValidException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Input {
-    public static final String NUMBER_RANGE_MESSAGE = "1부터 9까지 숫자를 활용하여 3자리수를 입력해주세요.";
     private static final int MAX_RANGE = 3;
     private static final int RESTART_GAME = 1;
     public static final int MIN_INPUT_NUMBER_RANGE = 1;
@@ -19,14 +20,14 @@ public class Input {
 
     public Input(String inputs) {
         checkInputsLength(inputs);
-        this.inputNumbers = numberInputToNumbers(inputs);
+        this.inputNumbers = inputStringToNumbers(inputs);
     }
 
     public List<Integer> getInputNumbers() {
         return inputNumbers;
     }
 
-    private List<Integer> numberInputToNumbers(String inputs) {
+    private List<Integer> inputStringToNumbers(String inputs) {
         // 삽입 최대 3개 but 조회 빈번 -> arrayList
         List<Integer> numbers = new ArrayList<>();
 
@@ -41,13 +42,13 @@ public class Input {
 
     private void validateNumberRange(int target) {
         if (target < MIN_INPUT_NUMBER_RANGE || target > MAX_INPUT_NUMBER_RANGE) {
-            throw new IllegalArgumentException(NUMBER_RANGE_MESSAGE);
+            throw new NotValidException();
         }
     }
 
     private void checkInputsLength(String inputs) {
         if (inputs.length() != MAX_RANGE) {
-            throw new IllegalArgumentException(NUMBER_RANGE_MESSAGE);
+            throw new NotValidException();
         }
     }
 

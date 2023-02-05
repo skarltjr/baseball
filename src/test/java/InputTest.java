@@ -1,3 +1,4 @@
+import exceptions.NotValidException;
 import model.Input;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,22 +13,22 @@ public class InputTest {
     @DisplayName("수 입력 - 입력된 숫자는 3자리여야한다.")
     void checkNumberInputLength(){
         String target = "1234";
-        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> {
+        String exceptionMessage = assertThrows(NotValidException.class, () -> {
             new Input(target);
         }).getMessage();
 
-        assertThat(exceptionMessage).isEqualTo(Input.NUMBER_RANGE_MESSAGE);
+        assertThat(exceptionMessage).isEqualTo(NotValidException.NUMBER_RANGE_MESSAGE);
     }
 
     @Test
     @DisplayName("수 입력 - 입력된 숫자는 1~9 이내의 숫자여야한다")
     void checkNumberRange(){
         String target = "012";
-        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> {
+        String exceptionMessage = assertThrows(NotValidException.class, () -> {
             new Input(target);
         }).getMessage();
 
-        assertThat(exceptionMessage).isEqualTo(Input.NUMBER_RANGE_MESSAGE);
+        assertThat(exceptionMessage).isEqualTo(NotValidException.NUMBER_RANGE_MESSAGE);
     }
 
     @Test
